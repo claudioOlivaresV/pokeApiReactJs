@@ -1,3 +1,4 @@
+import { Ruler, Weight, Zap } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "../../components/ui/dialog";
 import type { Pokemon } from "../../interfaces/Pokemon.interface";
 import { TypeBadge } from "./PokemonCard";
@@ -53,29 +54,32 @@ export function PokemonDetail({
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 rounded-xl bg-muted/50 p-3 text-center">
-              <div>
+            <div className="grid grid-cols-3 gap-2 ">
+              <div className="rounded-xl bg-muted/50 p-3 text-center">
                 <div className="text-[10px] uppercase text-muted-foreground">
                   Height
                 </div>
-                <div className="text-sm font-semibold">
-                  {(pokemon.height / 10).toFixed(1)} m
+                <div className="flex items-center gap-1 text-sm font-semibold">
+                  <Ruler size={14} className="text-sky-500" />
+                  <span>{(pokemon.height / 10).toFixed(1)} m</span>
                 </div>
               </div>
-              <div>
+              <div className="rounded-xl bg-muted/50 p-3 text-center">
                 <div className="text-[10px] uppercase text-muted-foreground">
                   Weight
                 </div>
-                <div className="text-sm font-semibold">
-                  {(pokemon.weight / 10).toFixed(1)} kg
+                <div className="flex items-center gap-1 text-sm font-semibold">
+                  <Weight size={14} className="text-orange-500" />
+                  <span>{(pokemon.weight / 10).toFixed(1)} kg</span>
                 </div>
               </div>
-              <div>
+              <div className="rounded-xl bg-muted/50 p-3 text-center">
                 <div className="text-[10px] uppercase text-muted-foreground">
                   Base XP
                 </div>
-                <div className="text-sm font-semibold">
-                  {pokemon.base_experience}
+                <div className="flex items-center gap-1 text-sm font-semibold">
+                  <Zap size={14} className="text-yellow-500" />
+                  <span>{pokemon.base_experience}</span>
                 </div>
               </div>
             </div>
