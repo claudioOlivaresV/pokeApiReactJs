@@ -1,6 +1,7 @@
 import { lazy } from "react";
 import { createBrowserRouter, Navigate } from "react-router";
 import { Login } from "./auth/components/Login";
+import { MainLayout } from "./main/MainLayout";
 const AuthLayout = lazy(() => import("./auth/AuthLayout"));
 
 export const appRouter = createBrowserRouter([
@@ -17,5 +18,9 @@ export const appRouter = createBrowserRouter([
         element: <Login />,
       },
     ],
+  },
+  {
+    path: "main",
+    element: <MainLayout />,
   },
 ]);
