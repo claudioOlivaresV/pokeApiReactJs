@@ -4,6 +4,10 @@ const pokeApi = axios.create({
   baseURL: "https://pokeapi.co/api/v2/",
 });
 
+const authApi = axios.create({
+  baseURL: "https://dummyjson.com/auth/",
+});
+
 // TODO interceptors
 
 // tesloApi.interceptors.request.use((config) => {
@@ -14,4 +18,4 @@ const pokeApi = axios.create({
 //   return config;
 // });
 
-export { pokeApi };
+export { pokeApi, authApi };

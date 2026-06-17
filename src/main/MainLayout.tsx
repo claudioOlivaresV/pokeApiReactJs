@@ -68,7 +68,7 @@ export const MainLayout = () => {
         ) : (
           <>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-              {data.map((pokemon: any) => (
+              {data?.map((pokemon: Pokemon) => (
                 // <p key={pokemon.id}>{pokemon.id}</p>
                 <PokemonCard
                   key={pokemon.id}

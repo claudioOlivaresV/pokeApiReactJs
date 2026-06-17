@@ -66,10 +66,11 @@ export function PokemonCard({
         )}
       />
       <div className="relative">
-        <div className="flex items-start justify-between">
+        <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
           <span className="text-xs font-mono text-muted-foreground">
             #{p.id.toString().padStart(4, "0")}
           </span>
+
           <div className="flex gap-1">
             {p.types.map((t: any) => (
               <TypeBadge key={t.type.name} type={t.type.name} />

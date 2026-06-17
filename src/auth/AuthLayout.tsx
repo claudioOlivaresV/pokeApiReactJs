@@ -50,7 +50,7 @@ const AuthLayout = () => {
         <Outlet />
 
         <p className="mt-4 text-center text-[11px] text-muted-foreground">
-          Mock login — any valid email + password works
+          Mock login — use api https://dummyjson.com/docs/auth
         </p>
       </div>
     </div>

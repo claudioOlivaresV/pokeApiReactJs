@@ -1,3 +1,5 @@
+export type PokemonType = { slot: number; type: { name: string } };
+
 export type Pokemon = {
   id: number;
   name: string;
@@ -11,7 +13,7 @@ export type Pokemon = {
       home?: { front_default: string | null };
     };
   };
-  types: { slot: number; type: { name: string } }[];
+  types: PokemonType[];
   stats: { base_stat: number; stat: { name: string } }[];
   abilities: { ability: { name: string }; is_hidden: boolean }[];
 };
