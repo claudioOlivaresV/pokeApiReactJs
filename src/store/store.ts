@@ -2,11 +2,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 // importa el reducer del theme slice (ajusta la ruta)
 import themeReducer from "./themeSlice";
+import authSlice from "./authSlice";
 
 export const store = configureStore({
   reducer: {
     // usa una clave coherente y el reducer importado
     theme: themeReducer,
+    auth: authSlice,
   },
 });
 // ...existing code...

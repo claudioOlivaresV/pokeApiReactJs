@@ -8,6 +8,8 @@ import { toggleTheme } from "../../store/themeSlice";
 export const TopBar = () => {
   const dispatch = useDispatch();
   const theme = useSelector((state: RootState) => state.theme.mode);
+  const user = useSelector((state: RootState) => state.auth);
+
   return (
     <header className="glass sticky top-4 z-30 mx-auto flex max-w-6xl items-center gap-3 rounded-2xl px-3 py-2 shadow-mac">
       <div className="flex items-center gap-1.5 pl-1">
@@ -45,7 +47,7 @@ export const TopBar = () => {
         //   onClick={logout}
         className="flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
       >
-        <span className="hidden sm:inline">{"user"}</span>
+        <span className="hidden sm:inline">{`${user.username}`}</span>
         <LogOut className="h-3.5 w-3.5" />
       </button>
     </header>
