@@ -1,15 +1,25 @@
 import { LogOut, Moon, Search, Sun } from "lucide-react";
-import React from "react";
 import { Input } from "../../components/ui/input";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
 import { toggleTheme } from "../../store/themeSlice";
-
-export const TopBar = () => {
+import { logout } from "../../store/authSlice";
+import { useNavigate } from "react-router";
+interface Props {
+  query: string;
+  setQuery: (value: string) => void;
+}
+export const TopBar = ({ query, setQuery }: Props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const theme = useSelector((state: RootState) => state.theme.mode);
   const user = useSelector((state: RootState) => state.auth);
+  console.log(user);
 
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/auth/login");
+  };
   return (
     <header className="glass sticky top-4 z-30 mx-auto flex max-w-6xl items-center gap-3 rounded-2xl px-3 py-2 shadow-mac">
       <div className="flex items-center gap-1.5 pl-1">
@@ -24,8 +34,8 @@ export const TopBar = () => {
       <div className="relative ml-auto w-full max-w-xs">
         <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
         <Input
-          //   value={query}
-          //   onChange={(e) => setQuery(e.target.value)}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
           placeholder="Search Pokémon..."
           className="h-8 rounded-lg border-border/60 bg-background/60 pl-8 text-sm"
         />
@@ -44,7 +54,7 @@ export const TopBar = () => {
       </button>
 
       <button
-        //   onClick={logout}
+        onClick={handleLogout}
         className="flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
       >
         <span className="hidden sm:inline">{`${user.username}`}</span>

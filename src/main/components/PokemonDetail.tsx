@@ -1,7 +1,8 @@
-import { Ruler, Weight, Zap } from "lucide-react";
+import { Ruler, Star, Weight, Zap } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "../../components/ui/dialog";
 import type { Pokemon } from "../../interfaces/Pokemon.interface";
 import { TypeBadge } from "./PokemonCard";
+import { useEffect, useState } from "react";
 
 const STAT_LABEL: Record<string, string> = {
   hp: "HP",
@@ -17,15 +18,20 @@ export function PokemonDetail({
   open,
   onOpenChange,
 }: {
-  pokemon: Pokemon | null;
+  pokemon: any | null;
   open: boolean;
   onOpenChange: (o: boolean) => void;
 }) {
+  const [isShiny, setIsShiny] = useState(false);
+  // reset al cerrar modal
+
   if (!pokemon) return null;
-  const img =
-    pokemon.sprites.other["official-artwork"].front_default ??
-    pokemon.sprites.front_default ??
-    "";
+
+  if (!pokemon) return null;
+  const img = isShiny
+    ? (pokemon.sprites.other["official-artwork"].front_shiny ??
+      pokemon.sprites.other["official-artwork"].front_default)
+    : pokemon.sprites.other["official-artwork"].front_default;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -44,9 +50,35 @@ export function PokemonDetail({
               <div className="text-xs font-mono text-muted-foreground">
                 #{pokemon.id.toString().padStart(4, "0")}
               </div>
-              <h2 className="text-3xl font-bold capitalize tracking-tight">
-                {pokemon.name}
-              </h2>
+              <div className="flex items-center gap-3">
+                <h2 className="text-3xl font-bold capitalize tracking-tight">
+                  {pokemon.name}
+                </h2>
+
+                <button
+                  onClick={() => setIsShiny((v) => !v)}
+                  className={`
+    flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold
+    transition-all duration-200 ease-out
+    border
+    ${
+      isShiny
+        ? "bg-yellow-400 text-black border-yellow-300 shadow-md shadow-yellow-400/40 scale-105"
+        : "bg-zinc-900 text-zinc-100 border-zinc-700 hover:bg-zinc-800"
+    }
+    hover:scale-105 active:scale-95
+    focus:outline-none focus:ring-2 focus:ring-yellow-400/60
+  `}
+                >
+                  <Star
+                    size={14}
+                    fill={isShiny ? "currentColor" : "none"}
+                    className={isShiny ? "drop-shadow-sm" : ""}
+                  />
+
+                  {isShiny ? "Shiny" : "Normal"}
+                </button>
+              </div>
               <div className="mt-2 flex gap-1.5">
                 {pokemon.types.map((t) => (
                   <TypeBadge key={t.type.name} type={t.type.name} />

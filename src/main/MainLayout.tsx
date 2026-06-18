@@ -7,18 +7,36 @@ import type { Pokemon } from "../interfaces/Pokemon.interface";
 import { PokemonDetail } from "./components/PokemonDetail";
 import { generations } from "../shared/generations";
 import { usePokemons } from "./hooks/usePokemons";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../store/store";
+import { setPagination } from "../store/generationSlice";
+import { ErrorState } from "./components/ErrorState";
 
 export const MainLayout = () => {
-  const [filtered, setFiltered] = useState([response]);
+  const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<Pokemon | null>(null);
   const [genIndex, setGenIndex] = useState(0);
-  const { data, isLoading, isError } = usePokemons();
-  console.log(data);
+  const dispatch = useDispatch();
 
+  const { limit, offset } = useSelector((state: RootState) => state.generation);
+  const { data, isLoading, isError, refetch } = usePokemons(limit, offset);
+  const filteredPokemons = data?.filter((pokemon: Pokemon) =>
+    pokemon.name.toLowerCase().includes(search.toLowerCase()),
+  );
+  console.log(data);
+  const changeGeneration = (i: number, g: any) => {
+    setGenIndex(i);
+    dispatch(
+      setPagination({
+        limit: g.limit,
+        offset: g.offset,
+      }),
+    );
+  };
   return (
     <div className="min-h-screen pb-16">
       <div className="px-4 pt-4">
-        <TopBar />
+        <TopBar query={search} setQuery={setSearch} />
       </div>
 
       <main className="mx-auto mt-8 max-w-6xl px-4">
@@ -34,7 +52,7 @@ export const MainLayout = () => {
               {generations.map((g, i) => (
                 <button
                   key={g.name}
-                  onClick={() => setGenIndex(i)}
+                  onClick={() => changeGeneration(i, g)}
                   className={`
           px-4 py-2
           rounded-xl
@@ -58,8 +76,9 @@ export const MainLayout = () => {
             Powered by PokéAPI ·
           </p>
         </section>
-
-        {isLoading ? (
+        {isError ? (
+          <ErrorState onRetry={refetch} />
+        ) : isLoading ? (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {Array.from({ length: 10 }).map((_, i) => (
               <div key={i} className="glass h-52 animate-pulse rounded-2xl" />
@@ -68,8 +87,7 @@ export const MainLayout = () => {
         ) : (
           <>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-              {data?.map((pokemon: Pokemon) => (
-                // <p key={pokemon.id}>{pokemon.id}</p>
+              {filteredPokemons?.map((pokemon: Pokemon) => (
                 <PokemonCard
                   key={pokemon.id}
                   p={pokemon}
@@ -78,18 +96,19 @@ export const MainLayout = () => {
               ))}
             </div>
 
-            {/* {filtered.length === 0 && (
+            {filteredPokemons?.length === 0 && (
               <div className="glass mx-auto mt-10 max-w-md rounded-2xl p-8 text-center">
                 <p className="text-sm text-muted-foreground">
-                  No Pokémon match "{query}"
+                  No Pokémon match "{search}"
                 </p>
               </div>
-            )} */}
+            )}
           </>
         )}
       </main>
 
       <PokemonDetail
+        key={selected?.id}
         pokemon={selected}
         open={!!selected}
         onOpenChange={(o) => !o && setSelected(null)}

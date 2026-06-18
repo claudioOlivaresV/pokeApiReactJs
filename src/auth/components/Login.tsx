@@ -6,15 +6,24 @@ import { Button } from "../../components/ui/button";
 
 import type { LoginForm } from "../../interfaces/LoginForm.interface";
 import { loginAction } from "../actions/login.action";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { loginSuccess } from "../../store/authSlice";
+import type { RootState } from "../../store/store";
 
 export const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loginError, setLoginError] = useState<string>("");
+  const user = useSelector((state: RootState) => state.auth);
+  console.log(user.isAuthenticated, "en login");
+  useEffect(() => {
+    if (user.isAuthenticated) {
+      navigate("/");
+    }
+  }, [user.isAuthenticated, navigate]);
+
   const formik = useFormik<LoginForm>({
     initialValues: {
       username: "emilys",
@@ -54,7 +63,7 @@ export const Login = () => {
             username: response.username,
           }),
         );
-        navigate("/main");
+        navigate("/");
         console.log(response);
       } catch (error) {
         setLoginError("Usuario o contraseña incorrectos");
