@@ -1,8 +1,7 @@
 import { Ruler, Star, Weight, Zap } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "../../components/ui/dialog";
-import type { Pokemon } from "../../interfaces/Pokemon.interface";
 import { TypeBadge } from "./PokemonCard";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const STAT_LABEL: Record<string, string> = {
   hp: "HP",
@@ -80,7 +79,7 @@ export function PokemonDetail({
                 </button>
               </div>
               <div className="mt-2 flex gap-1.5">
-                {pokemon.types.map((t) => (
+                {pokemon.types.map((t: any) => (
                   <TypeBadge key={t.type.name} type={t.type.name} />
                 ))}
               </div>
@@ -121,7 +120,7 @@ export function PokemonDetail({
                 Stats
               </h3>
               <div className="space-y-1.5">
-                {pokemon.stats.map((s) => (
+                {pokemon.stats.map((s: any) => (
                   <div key={s.stat.name} className="flex items-center gap-2">
                     <span className="w-14 text-[11px] text-muted-foreground">
                       {STAT_LABEL[s.stat.name] ?? s.stat.name}
@@ -147,7 +146,7 @@ export function PokemonDetail({
                 Abilities
               </h3>
               <div className="flex flex-wrap gap-1.5">
-                {pokemon.abilities.map((a) => (
+                {pokemon.abilities.map((a: any) => (
                   <span
                     key={a.ability.name}
                     className="rounded-full bg-accent px-2.5 py-0.5 text-xs capitalize text-accent-foreground"

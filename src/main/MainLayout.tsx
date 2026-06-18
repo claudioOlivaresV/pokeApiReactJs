@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import { Button } from "../components/ui/button";
+import { useState } from "react";
 import { TopBar } from "./components/TopBar";
-import { response } from "../assets/response";
 import { PokemonCard } from "./components/PokemonCard";
 import type { Pokemon } from "../interfaces/Pokemon.interface";
 import { PokemonDetail } from "./components/PokemonDetail";
